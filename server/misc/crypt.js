@@ -14,3 +14,8 @@ exports.createPassword = function (password) {
          hash
      }
 }
+
+exports.checkPassword = function(userhash, salt, password){
+    const hash = crypto.pbkdf2Sync(password,salt, 1000, 64, `sha512`).toString(`hex`);
+    return userhash === hash
+}
