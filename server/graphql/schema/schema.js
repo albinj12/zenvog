@@ -25,4 +25,17 @@ module.exports = buildSchema(`
         participant: User!
         likes: Int!
     }
+
+    type RootQuery {
+        login(email: String!, password: String!):String!
+    },
+
+    type RootMutation {
+        signup(name: String!, email: String!, password: String!)
+    }
+
+    schema {
+        query: RootQuery
+        mutation: RootMutation
+    }
 `)
