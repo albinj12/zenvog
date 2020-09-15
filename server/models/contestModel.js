@@ -10,7 +10,7 @@ const contestSchema = new mongoose.Schema({
         type: String
     },
     createdBy: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
     maxParticipants: {
