@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const entrySchema = mongoose.Schema({
     contestId: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Contest'
     },
     entries: [
@@ -12,7 +12,7 @@ const entrySchema = mongoose.Schema({
                 required: true
             },
             participant: {
-                type: Schema.Types.ObjectId,
+                type: mongoose.Schema.Types.ObjectId,
                 required: true
             },
             likes: {

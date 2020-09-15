@@ -16,13 +16,13 @@ const userSchema = new mongoose.Schema({
     },
     createdContests:[
         {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'Contest'
         }
     ],
     participatedContests:[
         {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'Contest'
         }
     ]

@@ -31,7 +31,7 @@ module.exports = buildSchema(`
     },
 
     type RootMutation {
-        signup(name: String!, email: String!, password: String!)
+        signup(name: String!, email: String!, password: String!):String!
     }
 
     schema {
