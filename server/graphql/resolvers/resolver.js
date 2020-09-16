@@ -93,6 +93,9 @@ const resolvers = {
         login:(parent, args, context, info) => {
             return loginFunc(args)
         },
+        user: (parent, args, context, info) => {
+            return userModel.findById(args.id)
+        },
         getContests:(parent, args, context, info) => {
             return contestModel.find({completed:args.completed});
         },

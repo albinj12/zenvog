@@ -30,6 +30,7 @@ const typeDefs = `
 
     type RootQuery {
         login(email: String!, password: String!):String!
+        user(id:ID!):User!
         getContests(completed:Boolean!):[Contest!]!
         getContest(id:ID!):Contest!
     },
