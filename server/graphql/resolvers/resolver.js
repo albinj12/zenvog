@@ -1,5 +1,8 @@
 const UserModel = require('../../models/userModel')
-const crypt = require('../../misc/crypt')
+const contestModel = require('../../models/contestModel')
+const crypt = require('../../misc/crypt');
+const userModel = require('../../models/userModel');
+const { find } = require('../../models/userModel');
 
 // handle errors
 const handleAuthErrors = (err) => {
@@ -15,6 +18,21 @@ const handleAuthErrors = (err) => {
   }
 
 const resolvers = {
+
+        Uesr: {
+            createdContext(parent){
+                return contestModel.find({createdBy:parent.id})
+            },
+            participatedContests(parent){
+                let participatedContestsId = userModel.find({_id:parent.id},"participatedContests -_id")
+                let participatedContests = []
+                participatedContestsId.forEach(element => {
+                    participatedContest.push(contestModel.findById(element._id)) 
+                }); 
+                return participatedContests
+            }
+        },
+
         login: async({email,password}) => {
             try {
                 let user = await UserModel.findOne({email})
