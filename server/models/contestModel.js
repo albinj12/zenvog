@@ -13,6 +13,10 @@ const contestSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
+    contestType: {
+        type: String,
+        enum : ['public','private'],
+    },
     maxParticipants: {
         type: Number,
         required: true

@@ -17,60 +17,86 @@ const handleAuthErrors = (err) => {
     return errors;
   }
 
+
+// login handler
+const loginFunc = async function({email,password})
+    {
+        try {
+        let user = await UserModel.findOne({email})
+        if(user){
+            const validPassword = crypt.checkPassword(user.hash, user.salt, password)
+            if(validPassword){
+                return "success"
+                //set jwt cookies
+            }else{
+                throw new Error("Invalid email or password")
+            }
+        }else{
+            throw new Error("Invalid email or password")
+        }
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+
+// signup handler
+const signupFunc = async function({name, email,password}){
+    try{
+        const {salt, hash}= crypt.createPassword(password)
+        const newUser = await UserModel.create({
+        name,
+        email,
+        salt,
+        hash,
+    })
+        return "success"
+        //TODO: set jwt as cookie
+    }
+    catch(err){
+        const errors = handleAuthErrors(err)
+        throw new Error(errors.email)
+    }
+}
+
+// handler for creating contest
+const createContestFunc = async function({name, tagline, createdBy, contestType, maxParticipants}){
+    try {
+        const newContest = await contestModel.create({
+            name,
+            tagline,
+            createdBy,
+            contestType,
+            maxParticipants
+        })
+        return newContest
+    } catch (error) {
+        console.log(error)
+        throw new Error("Failed to create contest")
+    }
+}
+
 const resolvers = {
 
-        Uesr: {
-            createdContext(parent){
-                return contestModel.find({createdBy:parent.id})
-            },
-            participatedContests(parent){
-                let participatedContestsId = userModel.find({_id:parent.id},"participatedContests -_id")
-                let participatedContests = []
-                participatedContestsId.forEach(element => {
-                    participatedContest.push(contestModel.findById(element._id)) 
-                }); 
-                return participatedContests
-            }
-        },
-
-        login: async({email,password}) => {
-            try {
-                let user = await UserModel.findOne({email})
-                if(user){
-                    const validPassword = crypt.checkPassword(user.hash, user.salt, password)
-                    if(validPassword){
-                        return "success"
-                        //set jwt cookies
-                    }else{
-                        throw new Error("Invalid email or password")
-                    }
-                }else{
-                    throw new Error("Invalid email or password")
-                }
-            } catch (error) {
-                throw new Error(error)
-            }
-            
-        },
-
-        signup: async ({name,email,password}) => {
-            try{
-                const {salt, hash}= crypt.createPassword(password)
-                const newUser = await UserModel.create({
-                name,
-                email,
-                salt,
-                hash,
-            })
-            return "success"
-            //TODO: set jwt as cookie
-            }
-            catch(err){
-                const errors = handleAuthErrors(err)
-                throw new Error(errors.email)
-            }
-            
+    Contest: {
+        createdBy:(parent) => {
+            return userModel.findById(parent.createdBy)
         }
+    },
+
+    RootQuery:{
+        login:(parent, args, context, info) => {
+            return loginFunc(args)
+        }
+    },
+
+    RootMutation:{
+        signup:(parent,args,context,info) => {
+            return signupFunc(args)
+        },
+        createContest:(parent,args,context,info) => {
+            return createContestFunc(args)
+        }
+    }
 }
 
 module.exports = resolvers;

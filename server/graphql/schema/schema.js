@@ -1,8 +1,10 @@
-const { buildSchema } = require('graphql')
+const {makeExecutableSchema} = require('graphql-tools')
 
-module.exports = buildSchema(`
+const resolvers = require('../resolvers/resolver')
+
+const typeDefs = `
     type User {
-        id: ID!
+        _id: ID!
         name: String!
         email: String!
         profilePicture: String
@@ -11,7 +13,7 @@ module.exports = buildSchema(`
     }
 
     type Contest {
-        id: ID!
+        _id: ID!
         name: String!
         tagline: String
         createdBy: User!
@@ -32,10 +34,18 @@ module.exports = buildSchema(`
 
     type RootMutation {
         signup(name: String!, email: String!, password: String!):String!
+        createContest(name: String!, tagline: String, createdBy:ID!, contestType: String!, maxParticipants: Int!): Contest!
     }
 
     schema {
         query: RootQuery
         mutation: RootMutation
     }
-`)
+`;
+
+const schema = makeExecutableSchema({
+    typeDefs,
+    resolvers,
+});
+
+module.exports = schema

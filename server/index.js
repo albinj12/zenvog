@@ -5,11 +5,9 @@ const config = require('./config/mongo-connect')
 const app = express()
 
 const schema = require('./graphql/schema/schema')
-const rootValue = require('./graphql/resolvers/resolver')
 
 app.use('/graphql', graphqlHTTP({
     schema,
-    rootValue,
     graphiql: true
 }))
 
