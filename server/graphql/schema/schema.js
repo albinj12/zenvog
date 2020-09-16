@@ -31,6 +31,7 @@ const typeDefs = `
     type RootQuery {
         login(email: String!, password: String!):String!
         getContests(completed:Boolean!):[Contest!]!
+        getContest(id:ID!):Contest!
     },
 
     type RootMutation {

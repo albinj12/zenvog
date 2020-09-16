@@ -95,6 +95,9 @@ const resolvers = {
         },
         getContests:(parent, args, context, info) => {
             return contestModel.find({completed:args.completed});
+        },
+        getContest:(parent, args, context, info) => {
+            return contestModel.findById(args.id)
         }
     },
 
