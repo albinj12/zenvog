@@ -21,6 +21,14 @@ const contestSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    price:{
+        type:Number,
+        default: 0
+    },
+    deadlint: {
+        type:String,
+        required: true
+    },
     currentParticipants: {
         type: Number,
         default: 0
