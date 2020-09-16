@@ -92,6 +92,9 @@ const resolvers = {
     RootQuery:{
         login:(parent, args, context, info) => {
             return loginFunc(args)
+        },
+        getContests:(parent, args, context, info) => {
+            return contestModel.find({completed:args.completed});
         }
     },
 

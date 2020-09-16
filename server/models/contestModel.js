@@ -29,6 +29,10 @@ const contestSchema = new mongoose.Schema({
         type:String,
         required: true
     },
+    completed:{
+        type:Boolean,
+        default: false
+    },
     currentParticipants: {
         type: Number,
         default: 0
