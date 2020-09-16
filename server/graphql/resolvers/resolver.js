@@ -77,6 +77,12 @@ const createContestFunc = async function({name, tagline, createdBy, contestType,
 
 const resolvers = {
 
+    User: {
+        createdContest:(parent) => {
+            return contestModel.find({createdBy:parent._id})
+        }
+    },
+
     Contest: {
         createdBy:(parent) => {
             return userModel.findById(parent.createdBy)

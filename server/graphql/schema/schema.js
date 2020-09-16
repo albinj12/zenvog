@@ -8,8 +8,8 @@ const typeDefs = `
         name: String!
         email: String!
         profilePicture: String
-        createdContest: Contest
-        participatedContests: Contest
+        createdContest: [Contest]
+        participatedContests: [Contest]
     }
 
     type Contest {
