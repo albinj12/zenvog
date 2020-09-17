@@ -14,6 +14,7 @@
                         <v-text-field
                             label="Name"
                             outlined
+                            v-model="name"
                             :rules="[v => !!v || 'Name is required']"
                             required
                         >
@@ -21,6 +22,7 @@
                         <v-text-field
                             label="Email"
                             outlined
+                            v-model="email"
                             :rules="emailRules"
                             required
                             error-count="2"
@@ -49,7 +51,7 @@
                         </div>
                     </v-form>
                     <v-card-actions class="justify-center">
-                        <v-btn color="green white--text" :disabled="!isValid">Register</v-btn>
+                        <v-btn color="green white--text" @click="register" :disabled="!isValid">Register</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-row>
@@ -60,13 +62,16 @@
 </template>
 
 <script>
+
+import {SIGNUP_MUTATION} from '../graphql/resolver'
+
 export default {
     name: "Register",
     data: () => ({
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
+        name: "al",
+        email: "al@1",
+        password: "Albin@12",
+        confirmPassword: "Albin@12",
         isValid: true,
         emailRules: [ 
             v => !!v || 'Email is required', 
@@ -80,12 +85,29 @@ export default {
             v => /([!@$%])/.test(v) || 'Must have one special character [!@#$%]' 
         ],
         confirmPasswordRules: [
-
+            v => !!v || 'Password is required', 
         ]
   }),
   computed:{
       confirmPasswordRule() {
           return () => (this.password === this.confirmPassword) || 'Password dosen\'t match'
+      }
+  },
+  methods:{
+      register(){
+          const {name, email, password} = this.$data
+          this.$apollo.mutate({
+              mutation: SIGNUP_MUTATION,
+              variables:{
+                  name,
+                  email,
+                  password
+              }
+          }).then((result) => {
+              console.log(result.data)
+          }).catch((error) => {
+              alert(error.message)
+          })
       }
   }
 }

@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const {graphqlHTTP} = require('express-graphql')
 const config = require('./config/mongo-connect')
 
