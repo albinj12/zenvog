@@ -25,8 +25,12 @@ const contestSchema = new mongoose.Schema({
         type:Number,
         default: 0
     },
-    deadlint: {
-        type:String,
+    createdAt:{
+        type:Date,
+        default: Date.now
+    },
+    deadline: {
+        type:Date,
         required: true
     },
     completed:{

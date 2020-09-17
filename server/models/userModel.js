@@ -29,7 +29,11 @@ const userSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Contest'
         }
-    ]
+    ],
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    }
 })
 
 module.exports = mongoose.model('User',userSchema);

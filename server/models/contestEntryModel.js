@@ -18,6 +18,10 @@ const entrySchema = mongoose.Schema({
             likes: {
                 type: Number,
                 default: 0
+            },
+            entryAt:{
+                type: Date,
+                default: Date.now
             }
         }
     ]
