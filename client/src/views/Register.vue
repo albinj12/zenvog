@@ -28,6 +28,7 @@
                             error-count="2"
                         >
                         </v-text-field>
+                        <p v-if="signuperr=='This email is already registered'" class="text-body-2 mt-n5 mb-6 red--text">This email is already registered</p>
                         <v-text-field
                             label="Password"
                             outlined
@@ -51,7 +52,7 @@
                         </div>
                     </v-form>
                     <v-card-actions class="justify-center">
-                        <v-btn color="green white--text" @click="register" :disabled="!isValid">Register</v-btn>
+                        <v-btn color="green white--text mt-n2 mb-3" @click="register" :disabled="!isValid">Register</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-row>
@@ -69,7 +70,7 @@ export default {
     name: "Register",
     data: () => ({
         name: "al",
-        email: "al@1",
+        email: "",
         password: "Albin@12",
         confirmPassword: "Albin@12",
         isValid: true,
@@ -86,7 +87,8 @@ export default {
         ],
         confirmPasswordRules: [
             v => !!v || 'Password is required', 
-        ]
+        ],
+        signuperr: ""
   }),
   computed:{
       confirmPasswordRule() {
@@ -104,9 +106,12 @@ export default {
                   password
               }
           }).then((result) => {
-              console.log(result.data)
+              this.signuperr=""
+              if(result.data.signup === "success"){
+                 window.location.href = 'http://localhost:8080/home'
+              }
           }).catch((error) => {
-              alert(error.message)
+              this.signuperr = error.message.slice(15)
           })
       }
   }
