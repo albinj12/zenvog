@@ -69,10 +69,10 @@ import {SIGNUP_MUTATION} from '../graphql/resolver'
 export default {
     name: "Register",
     data: () => ({
-        name: "al",
-        email: "",
-        password: "Albin@12",
-        confirmPassword: "Albin@12",
+        name: "Test User",
+        email: "testuser@gmail.com",
+        password: "Testuser@123",
+        confirmPassword: "Testuser@123",
         isValid: true,
         emailRules: [ 
             v => !!v || 'Email is required', 

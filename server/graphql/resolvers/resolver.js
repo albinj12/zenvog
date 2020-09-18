@@ -23,7 +23,7 @@ const resolvers = {
 
     RootQuery:{
         login:(parent, args, context, info) => {
-            return loginFunc(args)
+            return loginFunc(args,context)
         },
         // user: (parent, args, context, info) => {
         //     return userModel.findById(args.id)
@@ -38,7 +38,6 @@ const resolvers = {
 
     RootMutation:{
         signup:(parent,args,context,info) => {
-            
             return signupFunc(args,context)
         },
         createContest:(parent,args,context,info) => {

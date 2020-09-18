@@ -52,7 +52,7 @@ export default {
     name: "Register",
     data: () => ({
         email: "",
-        password: "Albin@12",
+        password: "",
         isValid: true,
         emailRules: [ 
             v => !!v || 'Email is required', 
@@ -79,6 +79,7 @@ export default {
               }
           }).catch((error) => {
               this.loginerr = error.message.slice(22)
+              alert(error.message)
           })
       }
   }
