@@ -4,6 +4,8 @@ const config = require('./config/mongo-connect')
 const { ApolloServer, gql } = require('apollo-server-express');
 const cookieParser = require('cookie-parser');
 
+const isAuthenticated = require('./misc/authMiddleware')
+
 const typeDefs = require('./graphql/schema/schema')
 const resolvers = require('./graphql/resolvers/resolver')
 
