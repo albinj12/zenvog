@@ -2,9 +2,11 @@
 
 
 const UserModel = require('../models/userModel')
+const SessionTokenModel = require('../models/sessionTokenModel')
 const crypt = require('../misc/crypt')
 const handleAuthErrors = require('./handleError')
 const createSessionToken = require('../misc/createSessionToken')
+const sessionTokenModel = require('../models/sessionTokenModel')
 
 const signupFunc = async function({name, email,password},{res}){
     try{
@@ -20,8 +22,12 @@ const signupFunc = async function({name, email,password},{res}){
         const jwt = createSessionToken.makeToken(jid)
         res.cookie("tid", tid);
         res.cookie("sid", jwt);
+        const newSessionTokenModel = await sessionTokenModel.create({
+            userId: newUser._id,
+            jid,
+            tid
+        })
         return "success"
-        //TODO: set jwt as cookie
     }
     catch(err){
         const errors = handleAuthErrors(err)
