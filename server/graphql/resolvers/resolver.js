@@ -38,8 +38,8 @@ const resolvers = {
 
     RootMutation:{
         signup:(parent,args,context,info) => {
-            console.log(args)
-            return signupFunc(args)
+            
+            return signupFunc(args,context)
         },
         createContest:(parent,args,context,info) => {
             return createContestFunc(args)
