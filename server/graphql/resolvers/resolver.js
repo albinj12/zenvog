@@ -5,12 +5,13 @@ const userModel = require('../../models/userModel');
 const signupFunc = require('../../resolver_handlers/signupHandler')
 const createContestFunc = require('../../resolver_handlers/createContestHandler');
 const loginFunc = require('../../resolver_handlers/loginHandler')
+const getUserFunc = require('../../resolver_handlers/getUserHandler')
 
 
 const resolvers = {
 
     User: {
-        createdContest:(parent) => {
+        createdContests:(parent) => {
             return contestModel.find({createdBy:parent._id})
         }
     },
@@ -25,9 +26,9 @@ const resolvers = {
         login:(parent, args, context, info) => {
             return loginFunc(args,context)
         },
-        // user: (parent, args, context, info) => {
-        //     return userModel.findById(args.id)
-        // },
+        user: (parent, args, context, info) => {
+            return getUserFunc(context)
+        },
         // getContests:(parent, args, context, info) => {
         //     return contestModel.find({completed:args.completed});
         // },

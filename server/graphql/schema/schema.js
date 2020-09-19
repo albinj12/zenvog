@@ -8,7 +8,7 @@
         name: String!
         email: String!
         profilePicture: String
-        createdContest: [Contest]
+        createdContests: [Contest]
         participatedContests: [Contest]
     }
 
@@ -30,7 +30,7 @@
 
     type RootQuery {
         login(email: String!, password: String!):String!
-        user(id:ID!):User!
+        user:User!
         getContests(completed:Boolean!):[Contest!]!
         getContest(id:ID!):Contest!
     },

@@ -18,8 +18,8 @@ var corsOptions = {
   credentials: true
 };
 app.use(cors(corsOptions))
-
-const schema = require('./graphql/schema/schema')
+app.use(cookieParser());
+app.use(isAuthenticated)
 
 const server = new ApolloServer({ 
   typeDefs, 

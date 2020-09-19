@@ -5,3 +5,20 @@ export const LOGIN_QUERY = gql`
         login(email:$email,password:$password)
     }
 `
+
+export const USER_QUERY = gql`
+    query{
+        user{
+          name
+          profilePicture
+          createdContests{
+            name
+            tagline
+          }
+          participatedContests{
+            name
+            tagline
+          }
+        }
+      }
+`

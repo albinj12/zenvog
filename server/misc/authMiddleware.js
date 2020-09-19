@@ -7,11 +7,11 @@ const isAuthenticated = async function(req, res, next){
     let user = await sessionTokenModel.findOne({tid})
     if(tid && sid){
         jwt.verify(sid, 'secure token',(err,decodedToken) => {
-            if(decodedToken == user.jid){
+            if(user != null && decodedToken.jid == user.jid){
                 req.userId = user.userId
                 req.user = true
             }else{
-                req.user = true
+                req.user = false
             }
         })
     }
