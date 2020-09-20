@@ -42,7 +42,7 @@ const resolvers = {
             return signupFunc(args,context)
         },
         createContest:(parent,args,context,info) => {
-            return createContestFunc(args)
+            return createContestFunc(args,context)
         }
     }
 }

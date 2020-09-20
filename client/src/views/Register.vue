@@ -64,7 +64,7 @@
 
 <script>
 
-import {SIGNUP_MUTATION} from '../graphql/resolver'
+import {SIGNUP_MUTATION} from '../graphql/mutation'
 
 export default {
     name: "Register",

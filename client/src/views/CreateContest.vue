@@ -17,18 +17,22 @@
         <div>
             <v-text-field
                 label="Contest Name"
+                v-model="contestName"
                 outlined>              
             </v-text-field>
             <v-text-field
                 label="Contest Tagline"
+                v-model="contestTagline"
                 outlined>     
             </v-text-field>
             <v-textarea
                 label="Contest Description"
+                v-model="contestDescription"
                 outlined>
             </v-textarea>
             <v-text-field
                 label="Maxium Participants"
+                v-model="maxParticipants"
                 outlined
                 type="number"
                 min="1">
@@ -56,6 +60,7 @@
             </v-menu>
             <v-select
               :items="contestTypes"
+              v-model="contestType"
               label="Contest Type"
               outlined
             ></v-select>
@@ -75,7 +80,7 @@
               </div>
     </v-form>
     <v-card-actions class="justify-center">
-        <v-btn color="green white--text">Create contest</v-btn>
+        <v-btn @click="createContest" color="green white--text">Create contest</v-btn>
     </v-card-actions>
   </v-card>
     </v-col>
@@ -85,6 +90,7 @@
 </template>
 
 <script>
+import { CREATE_CONTEST_MUTATION } from '../graphql/mutation'
   export default {
     data: vm => ({
       date: new Date().toISOString().substr(0, 10),
@@ -93,7 +99,13 @@
       menu2: false,
       minDate: new Date().toISOString().substr(0, 10),
       contestTypes: ['Public', 'Private'],
-      contestRules: []
+      contestRules: [{value:"rules are to be violated"}],
+      contestName:'The greate photo',
+      contestTagline:'its a good tagline',
+      contestDescription:'wow nice description',
+      maxParticipants:1,
+      contestType:'Public',
+      rules:[]
     }),
 
     computed: {
@@ -129,6 +141,27 @@
     
      removeRule (index) {
          this.contestRules.splice(index, 1)
+     },
+
+     createContest(){
+       this.contestRules.forEach(element => {
+         this.rules.push(element.value)
+       });
+       this.$apollo.mutate({
+         mutation: CREATE_CONTEST_MUTATION,
+         variables:{
+           name: this.contestName,
+           tagline: this.contestTagline,
+           description: this.contestDescription,
+           deadline: this.date,
+           maxParticipants: this.maxParticipants,
+           contestType: this.contestType,
+           rules: this.rules
+           
+         }
+       }).then((result) => {
+         console.log(result)
+       })
      }
     },
   }

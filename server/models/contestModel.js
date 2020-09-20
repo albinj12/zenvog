@@ -15,7 +15,7 @@ const contestSchema = new mongoose.Schema({
     },
     contestType: {
         type: String,
-        enum : ['public','private'],
+        enum : ['Public','Private'],
     },
     maxParticipants: {
         type: Number,
