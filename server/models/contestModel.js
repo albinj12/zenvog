@@ -40,7 +40,15 @@ const contestSchema = new mongoose.Schema({
     currentParticipants: {
         type: Number,
         default: 0
-    }
+    },
+    description:{
+        type: String,
+    },
+    rules: [
+        {
+            type: String,
+        }
+    ],
 })
 
 module.exports = mongoose.model('Contest',contestSchema);
