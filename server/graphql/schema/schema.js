@@ -23,6 +23,8 @@ const Date = require('./scalarDate');
         rules: [String]
         deadline: Date!
         startDate: Date!
+        status: String!
+        showEditOption: Boolean!
     }
 
     type ContestEntry {

@@ -6,6 +6,7 @@ const signupFunc = require('../../resolver_handlers/signupHandler')
 const createContestFunc = require('../../resolver_handlers/createContestHandler');
 const loginFunc = require('../../resolver_handlers/loginHandler')
 const getUserFunc = require('../../resolver_handlers/getUserHandler')
+const getContestFunc = require('../../resolver_handlers/getContestHandler')
 
 
 const resolvers = {
@@ -32,9 +33,9 @@ const resolvers = {
         // getContests:(parent, args, context, info) => {
         //     return contestModel.find({completed:args.completed});
         // },
-        // getContest:(parent, args, context, info) => {
-        //     return contestModel.findById(args.id)
-        // }
+        getContest:(parent, args, context, info) => {
+            return getContestFunc(args, context)
+        }
     },
 
     RootMutation:{
