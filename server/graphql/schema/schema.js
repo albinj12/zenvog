@@ -40,7 +40,7 @@ const Date = require('./scalarDate');
 
     type RootMutation {
         signup(name: String!, email: String!, password: String!):String!
-        createContest(name: String!, tagline: String, deadline: Date, description: String!, rules: [String], contestType: String!, maxParticipants: Int!, startDate: Date!): Contest!
+        createContest(name: String!, tagline: String, deadline: Date, description: String!, rules: [String], contestType: String!, maxParticipants: Int!, startDate: Date): Contest!
     }
 
     schema {

@@ -15,23 +15,29 @@
     <!-- <v-card-subtitle class="pb-0">Number 10</v-card-subtitle> -->
     <v-form v-model="isValid" ref="createContestForm">
         <div>
+          <!-- contest name -->
             <v-text-field
                 label="Contest Name"
                 v-model="contestName"
                 :rules="fieldrules"
                 outlined>              
             </v-text-field>
+            <!-- contest tagline -->
             <v-text-field
                 label="Contest Tagline"
                 v-model="contestTagline"
                 outlined>     
             </v-text-field>
+            <!-- contest tagline -->
+            <!-- contest description -->
             <v-textarea
                 label="Contest Description"
                 v-model="contestDescription"
                 :rules="fieldrules"
                 outlined>
             </v-textarea>
+            <!-- contest description -->
+            <!-- Maxium Participants -->
             <v-text-field
                 label="Maxium Participants"
                 v-model="maxParticipants"
@@ -40,6 +46,7 @@
                 type="number"
                 min="1">
             </v-text-field>
+            <!-- Maxium Participants -->
             <v-menu
               ref="startDateMenu"
               v-model="startDateMenu"
@@ -56,7 +63,6 @@
                   persistent-hint
                   :rules="fieldrules"
                   v-bind="attrs"
-                  @blur="startDate = parseDate(startDateFormatted)"
                   v-on="on"
                 ></v-text-field>
               </template>
@@ -78,7 +84,6 @@
                   persistent-hint
                   :rules="fieldrules"
                   v-bind="attrs"
-                  @blur="endDate = parseDate(endDateFormatted)"
                   v-on="on"
                 ></v-text-field>
               </template>
@@ -118,13 +123,14 @@
 
 <script>
 import { CREATE_CONTEST_MUTATION } from '../graphql/mutation'
+import moment from 'moment'
   export default {
-    data: vm => ({
+    data: () => ({
       startDateMenu: false,
       startDate: new Date().toISOString().substr(0, 10),
-      startDateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
+      startDateFormatted: "",
       endDate: new Date().toISOString().substr(0, 10),
-      endDateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
+      endDateFormatted: "",
       endDateMenu: false,
       startMinDate: new Date().toISOString().substr(0, 10),
       endMinDate: new Date().toISOString().substr(0, 10),
@@ -143,29 +149,22 @@ import { CREATE_CONTEST_MUTATION } from '../graphql/mutation'
 
     watch: {
       endDate () {
-        this.endDateFormatted = this.formatDate(this.endDate)
+        this.endDateFormatted = moment(this.endDate).format('dddd, Do MMMM YYYY')
       },
       startDate(){
-        this.startDateFormatted = this.formatDate(this.startDate)
+        this.startDateFormatted = moment(this.startDate).format('dddd, Do MMMM YYYY')
       },
       startDateFormatted(){
+        if(moment( this.startDate).month() <= moment(this.endDate) && moment( this.startDate).date() < moment(this.date) ){
+          this.endDate = this.startDate
+          this.endDateFormatted = this.startDateFormatted
+        }
+        console.log()
         this.endMinDate = this.startDate
       }
     },
 
     methods: {
-      formatDate (date) {
-        if (!date) return null
-
-        const [year, month, day] = date.split('-')
-        return `${day}/${month}/${year}`
-      },
-      parseDate (date) {
-        if (!date) return null
-
-        const [month, day, year] = date.split('/')
-        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
-      },
       addRule () {
         this.contestRules.push({ 
           value: "",
@@ -190,7 +189,8 @@ import { CREATE_CONTEST_MUTATION } from '../graphql/mutation'
               name: this.contestName,
               tagline: this.contestTagline,
               description: this.contestDescription,
-              deadline: this.date,
+              startDate: this.startDate,
+              deadline: this.endDate,
               maxParticipants: this.maxParticipants,
               contestType: this.contestType,
               rules: rules
