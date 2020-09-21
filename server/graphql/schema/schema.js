@@ -1,7 +1,3 @@
-// const {makeExecutableSchema} = require('graphql-tools')
-
-// const resolvers = require('../resolvers/resolver')
-
 const Date = require('./scalarDate');
 
  const typeDefs = `
@@ -52,11 +48,14 @@ const Date = require('./scalarDate');
     }
 `;
 
-// const schema = makeExecutableSchema({
-//     typeDefs,
-//     resolvers,
-// });
-
-// module.exports = schema
+//input ContestDetails {
+    //     name: String!
+    //     tagline: String
+    //     deadline: Date!
+    //     description: String!
+    //     rules: [String]
+    //     contestType: String!
+    //     maxParticipants: Int!
+    // }
 
 module.exports = typeDefs;

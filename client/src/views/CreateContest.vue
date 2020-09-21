@@ -158,6 +158,7 @@ import { CREATE_CONTEST_MUTATION } from '../graphql/mutation'
           this.contestRules.forEach(element => {
             rules.push(element.value)
           });
+          console.log(rules)
           this.$apollo.mutate({
             mutation: CREATE_CONTEST_MUTATION,
             variables:{
@@ -167,7 +168,7 @@ import { CREATE_CONTEST_MUTATION } from '../graphql/mutation'
               deadline: this.date,
               maxParticipants: this.maxParticipants,
               contestType: this.contestType,
-              rules: this.rules
+              rules: rules
               
             }
           }).then((result) => {
