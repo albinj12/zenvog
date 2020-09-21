@@ -2,10 +2,11 @@
 
 const contestModel = require('../models/contestModel')
 
-const createContestFunc = async function({name, tagline, createdBy, contestType, maxParticipants, deadline, rules, description},{req}){
+const createContestFunc = async function({name, tagline, createdBy, contestType, maxParticipants, deadline, rules, description, startDate},{req}){
     try {
         createdBy = req.userId
         deadline = new Date(deadline)
+        startDate = new Date(startDate)
         const newContest = await contestModel.create({
             name,
             tagline,
@@ -15,6 +16,7 @@ const createContestFunc = async function({name, tagline, createdBy, contestType,
             maxParticipants,
             deadline,
             rules,
+            startDate
         })
         return newContest
     } catch (error) {

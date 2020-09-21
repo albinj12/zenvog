@@ -41,8 +41,8 @@
                 min="1">
             </v-text-field>
             <v-menu
-              ref="menu1"
-              v-model="menu1"
+              ref="startDateMenu"
+              v-model="startDateMenu"
               :close-on-content-click="false"
               transition="scale-transition"
               offset-y
@@ -51,16 +51,38 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  v-model="dateFormatted"
+                  v-model="startDateFormatted"
+                  label="Contest start date"
+                  persistent-hint
+                  :rules="fieldrules"
+                  v-bind="attrs"
+                  @blur="startDate = parseDate(startDateFormatted)"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker v-model="startDate" :min="startMinDate" no-title @input="startDateMenu = false"></v-date-picker>
+            </v-menu>
+            <v-menu
+              ref="endDateMenu"
+              v-model="endDateMenu"
+              :close-on-content-click="false"
+              transition="scale-transition"
+              offset-y
+              max-width="290px"
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="endDateFormatted"
                   label="Last Date for entry"
                   persistent-hint
                   :rules="fieldrules"
                   v-bind="attrs"
-                  @blur="date = parseDate(dateFormatted)"
+                  @blur="endDate = parseDate(endDateFormatted)"
                   v-on="on"
                 ></v-text-field>
               </template>
-              <v-date-picker v-model="date" :min="minDate" no-title @input="menu1 = false"></v-date-picker>
+              <v-date-picker v-model="endDate" :min="endMinDate" no-title @input="endDateMenu = false"></v-date-picker>
             </v-menu>
             <v-select
               :items="contestTypes"
@@ -98,11 +120,14 @@
 import { CREATE_CONTEST_MUTATION } from '../graphql/mutation'
   export default {
     data: vm => ({
-      date: new Date().toISOString().substr(0, 10),
-      dateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
-      menu1: false,
-      menu2: false,
-      minDate: new Date().toISOString().substr(0, 10),
+      startDateMenu: false,
+      startDate: new Date().toISOString().substr(0, 10),
+      startDateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
+      endDate: new Date().toISOString().substr(0, 10),
+      endDateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
+      endDateMenu: false,
+      startMinDate: new Date().toISOString().substr(0, 10),
+      endMinDate: new Date().toISOString().substr(0, 10),
       contestTypes: ['Public', 'Private'],
       contestRules: [{value:"rules are to be violated"}],
       contestName:'',
@@ -116,16 +141,16 @@ import { CREATE_CONTEST_MUTATION } from '../graphql/mutation'
       ]
     }),
 
-    computed: {
-      computedDateFormatted () {
-        return this.formatDate(this.date)
-      },
-    },
-
     watch: {
-      date () {
-        this.dateFormatted = this.formatDate(this.date)
+      endDate () {
+        this.endDateFormatted = this.formatDate(this.endDate)
       },
+      startDate(){
+        this.startDateFormatted = this.formatDate(this.startDate)
+      },
+      startDateFormatted(){
+        this.endMinDate = this.startDate
+      }
     },
 
     methods: {
