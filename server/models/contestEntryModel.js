@@ -15,7 +15,7 @@ const entrySchema = mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 required: true
             },
-            likes: {
+            votes: {
                 type: Number,
                 default: 0
             },

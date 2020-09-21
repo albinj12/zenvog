@@ -28,7 +28,7 @@ const Date = require('./scalarDate');
     type ContestEntry {
         url: String!
         participant: User!
-        likes: Int!
+        votes: Int!
     }
 
     type RootQuery {
