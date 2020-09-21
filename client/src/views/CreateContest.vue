@@ -13,11 +13,12 @@
     <v-card-title>Enter contest details</v-card-title>
 
     <!-- <v-card-subtitle class="pb-0">Number 10</v-card-subtitle> -->
-    <v-form>
+    <v-form v-model="isValid" ref="createContestForm">
         <div>
             <v-text-field
                 label="Contest Name"
                 v-model="contestName"
+                :rules="fieldrules"
                 outlined>              
             </v-text-field>
             <v-text-field
@@ -28,11 +29,13 @@
             <v-textarea
                 label="Contest Description"
                 v-model="contestDescription"
+                :rules="fieldrules"
                 outlined>
             </v-textarea>
             <v-text-field
                 label="Maxium Participants"
                 v-model="maxParticipants"
+                :rules="fieldrules"
                 outlined
                 type="number"
                 min="1">
@@ -51,6 +54,7 @@
                   v-model="dateFormatted"
                   label="Last Date for entry"
                   persistent-hint
+                  :rules="fieldrules"
                   v-bind="attrs"
                   @blur="date = parseDate(dateFormatted)"
                   v-on="on"
@@ -63,6 +67,7 @@
               v-model="contestType"
               label="Contest Type"
               outlined
+              :rules="fieldrules"
             ></v-select>
             <p>Enter Rules for the contest</p>
             <div
@@ -100,12 +105,15 @@ import { CREATE_CONTEST_MUTATION } from '../graphql/mutation'
       minDate: new Date().toISOString().substr(0, 10),
       contestTypes: ['Public', 'Private'],
       contestRules: [{value:"rules are to be violated"}],
-      contestName:'The greate photo',
+      contestName:'',
       contestTagline:'its a good tagline',
       contestDescription:'wow nice description',
       maxParticipants:1,
       contestType:'Public',
-      rules:[]
+      isValid: true,
+      fieldrules:[
+         v => !!v || 'Field is required', 
+      ]
     }),
 
     computed: {
@@ -144,24 +152,38 @@ import { CREATE_CONTEST_MUTATION } from '../graphql/mutation'
      },
 
      createContest(){
-       this.contestRules.forEach(element => {
-         this.rules.push(element.value)
-       });
-       this.$apollo.mutate({
-         mutation: CREATE_CONTEST_MUTATION,
-         variables:{
-           name: this.contestName,
-           tagline: this.contestTagline,
-           description: this.contestDescription,
-           deadline: this.date,
-           maxParticipants: this.maxParticipants,
-           contestType: this.contestType,
-           rules: this.rules
-           
-         }
-       }).then((result) => {
-         console.log(result)
-       })
+       if(this.$refs.createContestForm.validate()){
+         console.log("form submitted")
+          let rules = []
+          this.contestRules.forEach(element => {
+            rules.push(element.value)
+          });
+          this.$apollo.mutate({
+            mutation: CREATE_CONTEST_MUTATION,
+            variables:{
+              name: this.contestName,
+              tagline: this.contestTagline,
+              description: this.contestDescription,
+              deadline: this.date,
+              maxParticipants: this.maxParticipants,
+              contestType: this.contestType,
+              rules: this.rules
+              
+            }
+          }).then((result) => {
+            console.log(result)
+          }).catch((error) => {
+            if(error.message=="GraphQL error: Failed to create contest"){
+              alert(error.message.slice(15))
+            }else{
+              alert(error.message)
+            }
+
+          })
+       }else{
+         alert("Please fill all the required fields")
+       }
+       
      }
     },
   }
