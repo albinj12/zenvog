@@ -135,10 +135,10 @@ import moment from 'moment'
       startMinDate: new Date().toISOString().substr(0, 10),
       endMinDate: new Date().toISOString().substr(0, 10),
       contestTypes: ['Public', 'Private'],
-      contestRules: [{value:"rules are to be violated"}],
+      contestRules: [],
       contestName:'',
-      contestTagline:'its a good tagline',
-      contestDescription:'wow nice description',
+      contestTagline:'',
+      contestDescription:'',
       maxParticipants:1,
       contestType:'Public',
       isValid: true,
@@ -176,13 +176,13 @@ import moment from 'moment'
      },
 
      createContest(){
+       console.log(this.maxParticipants)
+       console.log(typeof(this.maxParticipants))
        if(this.$refs.createContestForm.validate()){
-         console.log("form submitted")
           let rules = []
           this.contestRules.forEach(element => {
             rules.push(element.value)
           });
-          console.log(rules)
           this.$apollo.mutate({
             mutation: CREATE_CONTEST_MUTATION,
             variables:{
@@ -191,7 +191,7 @@ import moment from 'moment'
               description: this.contestDescription,
               startDate: this.startDate,
               deadline: this.endDate,
-              maxParticipants: this.maxParticipants,
+              maxParticipants: parseInt(this.maxParticipants),
               contestType: this.contestType,
               rules: rules
               

@@ -23,3 +23,23 @@ export const USER_QUERY = gql`
         }
       }
 `
+
+export const GET_CONTEST_QUERY=gql`
+    query($id:ID!){
+      getContest(id:$id){
+        name
+        tagline
+        description
+        maxParticipants
+        currentParticipants
+        createdBy{
+          name
+        }
+        deadline
+        status
+        startDate
+        showEditOption
+        rules
+      }
+    }
+`

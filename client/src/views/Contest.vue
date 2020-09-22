@@ -5,31 +5,42 @@
                 <v-col cols=8>
                     <v-row>
                         <v-col>
-                            <h1>Name of Contest</h1>
-                            <p>Tagline of Contest</p>
+                            <h1>{{contestDetails.name}}</h1>
+                            <p>{{contestDetails.tagline}}</p>
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col cols=10 >
                             <h3>Description</h3>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam iure consequatur provident doloremque eius sit eum aperiam tempora id nulla vero quam, alias sunt rem reprehenderit molestiae animi deserunt debitis.</p>
+                            <p>{{contestDetails.description}}</p>
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col cols=10>
                             <h3>Rules</h3>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam iure consequatur provident doloremque eius sit eum aperiam tempora id nulla vero quam, alias sunt rem reprehenderit molestiae animi deserunt debitis.</p>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam iure consequatur provident doloremque eius sit eum aperiam tempora id nulla vero quam.</p>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam iure consequatur provident doloremque eius sit eum aperiam tempora id nulla vero quam, alias sunt rem reprehenderit molestiae animi deserunt debitis.</p>
+                            <div v-for="(rule, i) in contestDetails.rules" :key="rule">
+                                <p>{{i+1}}.{{rule}}</p>
+                            </div>
                         </v-col>
                     </v-row>
                 </v-col>
                 <v-col>
                     <v-row >
                         <v-col class="my-16 mx-10">
-                            <p>Maximum contestants</p>
-                            <p>Current contestants</p>
-                            <v-btn>Participate</v-btn>
+                            <v-card
+                                max-width="300"
+                                class="py-4"
+                            >
+                                <v-card-text>
+                                    <center>
+                                        <p>Maximum contestants:{{contestDetails.maxParticipants}}</p>
+                                        <p>Current contestants:{{contestDetails.currentParticipants}}</p>
+                                    </center>
+                                </v-card-text>
+                                <v-card-actions class="justify-center">
+                                    <v-btn>Participate</v-btn>
+                                </v-card-actions>
+                            </v-card>
                         </v-col>
                     </v-row>
                 </v-col>
@@ -37,3 +48,26 @@
         </v-container>
     </div>
 </template>
+
+<script>
+import { GET_CONTEST_QUERY } from '../graphql/query'
+export default {
+    data: () => ({
+        contestDetails: {}
+    }),
+    created(){
+        console.log('The id is: ' + this.$route.params.id);
+        this.$apollo.query({
+            query: GET_CONTEST_QUERY,
+            variables:{
+                  id: this.$route.params.id
+              }
+        }).then((result) => {
+            console.log(result.data)
+            this.contestDetails = result.data.getContest
+        }).catch((error) => {
+            alert(error.message)
+        })
+    }
+}
+</script>

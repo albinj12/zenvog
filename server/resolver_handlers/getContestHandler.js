@@ -2,16 +2,14 @@ const contestModel = require('../models/contestModel')
 var ObjectID = require('mongodb').ObjectID;
 const {AuthenticationError} = require('apollo-server'); 
 
-const getContestFunc = async function({id},{req}){
+const getContestFunc = async function({id},{req,res}){
     if(req.user == true){
         try {
             var contest = await contestModel.findOne(new ObjectID(id)).lean()
-            if(contest.createdBy == req.userId){
+            if(contest.createdBy.toString() == req.userId.toString()){
                 contest.showEditOption = true
-                console.log("true")
             } else {
                 contest.showEditOption = false
-                console.log("false")
             }
             let today = new Date()
             if(today.getFullYear() == contest.startDate.getFullYear()){
