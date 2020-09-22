@@ -12,6 +12,7 @@ export const USER_QUERY = gql`
           name
           profilePicture
           createdContests{
+            _id
             name
             tagline
           }
