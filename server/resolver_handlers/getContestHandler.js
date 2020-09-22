@@ -6,11 +6,6 @@ const getContestFunc = async function({id},{req,res}){
     if(req.user == true){
         try {
             var contest = await contestModel.findOne(new ObjectID(id)).lean()
-            if(contest.createdBy.toString() == req.userId.toString()){
-                contest.showEditOption = true
-            } else {
-                contest.showEditOption = false
-            }
             let today = new Date()
             if(today.getFullYear() == contest.startDate.getFullYear()){
                 if((today.getMonth() < contest.startDate.getMonth()) || (today.getMonth() == contest.startDate.getMonth() && today.getDate() < contest.startDate.getDate())){
@@ -32,6 +27,11 @@ const getContestFunc = async function({id},{req,res}){
                         contest.status = "completed"
                     }
                 }
+            }
+            if(contest.createdBy.toString() == req.userId.toString() && contest.status == "upcoming"){
+                contest.showEditOption = true
+            } else {
+                contest.showEditOption = false
             }
             return contest
         } catch (error) {
