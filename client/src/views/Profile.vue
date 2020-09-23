@@ -8,7 +8,7 @@
                             <img id="avatar-img" src="../assets/avatar.jpg" alt="avatar">
                         </div>
                         <div class="mx-6 mt-10">
-                            <h1>John Doe</h1>
+                            <h1>{{name}}</h1>
                             <div class="mt-5">
                                 <v-btn color="green white--text">Edit Profile</v-btn>
                             </div>
