@@ -33,6 +33,12 @@ const Date = require('./scalarDate');
         votes: Int!
     }
 
+    type Image {
+        filename: String!
+        mimetype: String!
+        encoding: String!
+    }
+
     type RootQuery {
         login(email: String!, password: String!):String!
         user:User!
