@@ -44,6 +44,9 @@ const resolvers = {
         },
         createContest:(parent,args,context,info) => {
             return createContestFunc(args,context)
+        },
+        addImage:(parent,args,contest,info) => {
+            return addImageEntryFunc(args,context)
         }
     }
 }
