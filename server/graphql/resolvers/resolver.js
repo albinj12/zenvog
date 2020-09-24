@@ -7,6 +7,7 @@ const createContestFunc = require('../../resolver_handlers/createContestHandler'
 const loginFunc = require('../../resolver_handlers/loginHandler')
 const getUserFunc = require('../../resolver_handlers/getUserHandler')
 const getContestFunc = require('../../resolver_handlers/getContestHandler')
+const uploadImageFunc = require('../../resolver_handlers/UploadImageHandler')
 
 
 const resolvers = {
@@ -46,7 +47,7 @@ const resolvers = {
             return createContestFunc(args,context)
         },
         addImage:(parent,args,contest,info) => {
-            return addImageEntryFunc(args,context)
+            return uploadImageFunc(args)
         }
     }
 }
