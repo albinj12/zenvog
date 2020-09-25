@@ -19,7 +19,7 @@ const Date = require('./scalarDate');
         createdBy: User!
         maxParticipants: Int!
         currentParticipants: Int!
-        entry: ContestEntry
+        entry: [ContestEntry]
         rules: [String]
         deadline: Date!
         startDate: Date!
@@ -28,6 +28,7 @@ const Date = require('./scalarDate');
     }
 
     type ContestEntry {
+        _id: ID!
         url: String!
         participant: User!
         votes: Int!

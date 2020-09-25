@@ -1,5 +1,6 @@
 const contestModel = require('../../models/contestModel')
 const userModel = require('../../models/userModel');
+const contestEntryModel = require('../../models/contestEntryModel')
 
 //import handlers
 const signupFunc = require('../../resolver_handlers/signupHandler')
@@ -21,6 +22,16 @@ const resolvers = {
     Contest: {
         createdBy:(parent) => {
             return userModel.findById(parent.createdBy)
+        },
+        entry:async (parent) => {
+            const entries = await contestEntryModel.findOne({contestId:parent._id},'entries -_id')
+            return entries.entries
+        }
+    },
+
+    ContestEntry:{
+        participant:(parent) => {
+            return userModel.findById(parent.participant)
         }
     },
 
