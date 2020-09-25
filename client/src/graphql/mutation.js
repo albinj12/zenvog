@@ -13,3 +13,9 @@ export const CREATE_CONTEST_MUTATION = gql`
         }
     }
 `
+
+export const UPLOAD_IMAGE_MUTATION = gql`
+    mutation($file:Upload!,$contestId:ID!){
+        addImage(file: $file,contestId:$contestId)
+    }
+`

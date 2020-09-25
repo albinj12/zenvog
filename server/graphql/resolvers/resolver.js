@@ -47,7 +47,7 @@ const resolvers = {
             return createContestFunc(args,context)
         },
         addImage:(parent,args,contest,info) => {
-            return uploadImageFunc(args)
+            return uploadImageFunc(args,contest)
         }
     }
 }

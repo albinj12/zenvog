@@ -38,7 +38,7 @@
                                     </center>
                                 </v-card-text>
                                 <v-card-actions class="justify-center">
-                                    <v-btn>Participate</v-btn>
+                                    <v-btn @click="dialog = true">Participate</v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-col>
@@ -46,14 +46,42 @@
                 </v-col>
             </v-row>
         </v-container>
+        <div>
+            <v-row justify="center">
+                <v-dialog v-model="dialog" persistent max-width="600px">
+                <v-card>
+                    <v-card-title>
+                    <span class="headline">Upload Image</span>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-text-field
+                            label="Photo"
+                            required
+                            type="file"
+                            @input="selectImage"
+                        ></v-text-field>
+                        <small>Please follow the regulation regarding the photo</small>
+                    </v-card-text>
+                    <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="red" text @click="dialog = false">Cancel</v-btn>
+                    <v-btn color="blue darken-1" text @click="uploadImage">Upload</v-btn>
+                    </v-card-actions>
+                </v-card>
+                </v-dialog>
+            </v-row>
+        </div>
     </div>
 </template>
 
 <script>
+import { UPLOAD_IMAGE_MUTATION } from '../graphql/mutation';
 import { GET_CONTEST_QUERY } from '../graphql/query'
 export default {
     data: () => ({
-        contestDetails: {}
+        contestDetails: {},
+        selectedImage: null,
+        dialog: false,
     }),
     created(){
         console.log('The id is: ' + this.$route.params.id);
@@ -68,6 +96,29 @@ export default {
         }).catch((error) => {
             alert(error.message)
         })
+    },
+    methods: {
+        selectImage(){
+            this.selectedImage = event.target.files[0]
+            console.log(this.selectedImage)
+        },
+        uploadImage(){
+            if(this.selectedImage != null){
+                this.$apollo.mutate({
+                    mutation: UPLOAD_IMAGE_MUTATION,
+                    variables:{
+                        file: this.selectedImage,
+                        contestId: this.$route.params.id
+                    }
+                }).then( result => {
+                    console.log(result.data)
+                    this.dialog = false
+                }).catch( error => {
+                    alert(error)
+                    this.dialog = false
+                })
+            }
+        }
     }
 }
 </script>
