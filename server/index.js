@@ -3,6 +3,7 @@ const cors = require('cors')
 const config = require('./config/mongo-connect')
 const { ApolloServer, gql } = require('apollo-server-express');
 const cookieParser = require('cookie-parser');
+require('dotenv').config();
 
 const isAuthenticated = require('./misc/authMiddleware')
 
