@@ -71,12 +71,26 @@
                 </v-dialog>
             </v-row>
         </div>
+         
+        <v-container>
+            <v-row>
+                <v-col v-for="entry in contestDetails.entry" :key="entry._id">
+                    <div>
+                        <v-img
+                            :src="entry.url" width="300"
+                            height="300"
+                        ></v-img>
+                        <p>{{entry.votes}}</p>
+                    </div>
+                </v-col>
+            </v-row>
+        </v-container>
     </div>
 </template>
 
 <script>
 import { UPLOAD_IMAGE_MUTATION } from '../graphql/mutation';
-import { GET_CONTEST_QUERY } from '../graphql/query'
+import { GET_CONTEST_QUERY } from '../graphql/query';
 export default {
     data: () => ({
         contestDetails: {},
@@ -112,6 +126,7 @@ export default {
                     }
                 }).then( result => {
                     console.log(result.data)
+                    this.selectedImage = null
                     this.dialog = false
                 }).catch( error => {
                     alert(error)

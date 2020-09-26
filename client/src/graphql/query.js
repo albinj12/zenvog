@@ -35,6 +35,14 @@ export const GET_CONTEST_QUERY=gql`
         createdBy{
           name
         }
+        entry{
+          _id
+          url
+          votes
+          participant{
+            name
+          }
+        }
         deadline
         status
         startDate
