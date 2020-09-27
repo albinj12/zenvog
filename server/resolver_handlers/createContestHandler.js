@@ -2,6 +2,7 @@
 
 const contestModel = require('../models/contestModel')
 const contestEntryModel = require('../models/contestEntryModel')
+const userModel = require('../models/userModel')
 
 const createContestFunc = async function({name, tagline, createdBy, contestType, maxParticipants, deadline, rules, description, startDate},{req}){
     try {
@@ -23,7 +24,9 @@ const createContestFunc = async function({name, tagline, createdBy, contestType,
             newContestEntry = await contestEntryModel.create({
                 contestId: newContest._id
             })
+            await userModel.findOneAndUpdate({_id: createdBy},{$push:{createdContests:newContest._id}})
         }
+        
         return newContest
     } catch (error) {
         console.log(error)
