@@ -80,7 +80,10 @@
                             :src="entry.url" width="300"
                             height="300"
                         ></v-img>
-                        <p>{{entry.votes}}</p>
+                        <div>
+                            <span class="mr-16 pr-16">{{entry.votes}}</span>
+                            <span class="ml-16 pl-8">{{entry.participant.name}}</span>
+                        </div>
                     </div>
                 </v-col>
             </v-row>
