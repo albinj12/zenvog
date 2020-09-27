@@ -4,6 +4,7 @@ const azure = require('azure-storage')
 const blobService = azure.createBlobService(process.env.AZURE_STORAGE_CONNECTION_STRING)
 
 const contestEntryModel = require('../models/contestEntryModel')
+const userModel = require('../models/userModel')
 
 
 const uploadImageFunc = async function(args,{req, res}) {
@@ -47,7 +48,11 @@ const uploadImageFunc = async function(args,{req, res}) {
             participant: req.userId
           }
           contestEntryModel.findOneAndUpdate({contestId: args.contestId},{$push:{entries:entry}},(err, doc) => {
-            console.log("updated")
+            if(!err){
+              userModel.findOneAndUpdate({_id: req.userId},{$push:{participatedContests:args.contestId}},(err,doc) => {
+                console.log("updated")
+              })
+            }
           })
         }
       })
