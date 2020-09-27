@@ -38,7 +38,7 @@
                                     </center>
                                 </v-card-text>
                                 <v-card-actions class="justify-center">
-                                    <v-btn @click="dialog = true">Participate</v-btn>
+                                    <v-btn :disabled="!contestDetails.participateOption" @click="dialog = true">Participate</v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-col>

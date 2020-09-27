@@ -28,6 +28,13 @@ const getContestFunc = async function({id},{req,res}){
                     }
                 }
             }
+
+            if(contest.createdBy.toString() == req.userId.toString()){
+                contest.participateOption = false
+            }else {
+                contest.participateOption = true
+            }
+
             if(contest.createdBy.toString() == req.userId.toString() && contest.status == "upcoming"){
                 contest.showEditOption = true
             } else {

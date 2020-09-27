@@ -48,6 +48,7 @@ export const GET_CONTEST_QUERY=gql`
         startDate
         showEditOption
         rules
+        participateOption
       }
     }
 `

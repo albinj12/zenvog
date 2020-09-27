@@ -25,6 +25,7 @@ const Date = require('./scalarDate');
         startDate: Date!
         status: String!
         showEditOption: Boolean!
+        participateOption: Boolean!
     }
 
     type ContestEntry {
