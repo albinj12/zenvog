@@ -25,7 +25,10 @@ const resolvers = {
         },
         entry:async (parent) => {
             const entries = await contestEntryModel.findOne({contestId:parent._id},'entries -_id')
-            return entries.entries
+            if(entries != null){
+                return entries.entries
+            }
+            return null;
         }
     },
 
