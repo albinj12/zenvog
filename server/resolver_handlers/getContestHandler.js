@@ -1,6 +1,7 @@
 const contestModel = require('../models/contestModel')
 var ObjectID = require('mongodb').ObjectID;
-const {AuthenticationError} = require('apollo-server'); 
+const {AuthenticationError} = require('apollo-server');
+const userModel = require('../models/userModel'); 
 
 const getContestFunc = async function({id},{req,res}){
     if(req.user == true){
@@ -32,7 +33,18 @@ const getContestFunc = async function({id},{req,res}){
             if(contest.createdBy.toString() == req.userId.toString()){
                 contest.participateOption = false
             }else {
-                contest.participateOption = true
+                const userParticipatedContests = await userModel.findById(req.userId,'participatedContests -_id')
+                if(userParticipatedContests.participatedContests.length != 0){
+                    for (let i=0; i < userParticipatedContests.participatedContests.length; i++){
+                        if(userParticipatedContests.participatedContests[i].toString() === contest._id.toString()){
+                            contest.participateOption = false
+                            break;
+                        }
+                        contest.participateOption = true
+                    }
+                }else {
+                    contest.participateOption = true
+                }
             }
 
             if(contest.createdBy.toString() == req.userId.toString() && contest.status == "upcoming"){
