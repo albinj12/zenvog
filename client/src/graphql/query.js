@@ -17,6 +17,7 @@ export const USER_QUERY = gql`
             tagline
           }
           participatedContests{
+            _id
             name
             tagline
           }

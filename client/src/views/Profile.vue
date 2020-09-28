@@ -35,10 +35,17 @@
                         Created Contests
                     </v-tab>
                     <v-tab-item>
-                        <v-card v-for="contest in participatedContests" :key="contest.name">
-                        <v-card-text>{{contest.name}}</v-card-text>
-                        </v-card>
-                    </v-tab-item>
+                        <v-container fluid>
+                            <v-row>
+                                <v-col cols="4" v-for="contest in participatedContests" :key="contest.name">
+                                    <v-card :to="`/contest/${contest._id}`" width="450" outlined>
+                                    <h3 class="mx-6 py-6">Name: {{contest.name}}</h3>
+                                    <h3 class="mx-6 pb-6">Tagline: {{contest.tagline}}</h3>
+                                    </v-card>
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                    </v-tab-item> 
                     <v-tab-item>
                         <v-container fluid>
                             <v-row>
