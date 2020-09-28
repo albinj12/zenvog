@@ -52,3 +52,9 @@ export const GET_CONTEST_QUERY=gql`
       }
     }
 `
+
+export const LOGOUT_QUERY=gql`
+  query{
+    logout
+  }
+`

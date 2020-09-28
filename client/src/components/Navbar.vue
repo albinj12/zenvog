@@ -10,7 +10,7 @@
 
       <v-spacer></v-spacer>
       <v-btn v-show="loginStatus" class="mx-4" color="white green--text" to="/profile">Profile</v-btn>
-      <v-btn v-show="loginStatus" class="mx-4" color="white green--text" >Logout</v-btn>
+      <v-btn v-show="loginStatus" class="mx-4" color="white green--text" @click="logout" >Logout</v-btn>
       <v-btn v-show="!loginStatus" class="mx-4 font-weight-bold" text color="white green--text" to="/login">Login</v-btn>
       <v-btn v-show="!loginStatus" class="mx-4" color="white green--text" to="/register">Register</v-btn>
     </v-app-bar>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { LOGOUT_QUERY } from '../graphql/query'
 export default {
   data(){
     return {
@@ -31,6 +32,19 @@ export default {
     }else{
       this.loginStatus = false
       console.log("logged out")
+    }
+  },
+  methods:{
+    logout(){
+      this.$apollo.query({
+        query: LOGOUT_QUERY
+      }).then(() => {
+        this.loginStatus = false
+        window.location.href = 'http://localhost:8080/login'
+      }).catch(() => {
+        this.loginStatus = false
+        window.location.href = 'http://localhost:8080/login'
+      })
     }
   }
 }

@@ -9,12 +9,12 @@ const logoutFunc = async function({req, res}){
             res.cookie("sid", "",{maxAge:"1"});
             return "success"
         }else {
-            return "failed to logout"
+            return "success"
         }
     }else {
         res.cookie("tid", "",{maxAge:"1"});
         res.cookie("sid", "",{maxAge:"1"});
-        throw new AuthenticationError('Unautherized');
+        return "success"
     }
 }
 
