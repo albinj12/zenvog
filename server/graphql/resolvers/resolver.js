@@ -17,6 +17,15 @@ const resolvers = {
     User: {
         createdContests:(parent) => {
             return contestModel.find({createdBy:parent._id})
+        },
+        participatedContests:async (parent) => {
+            let userParticipatedContestsDetails = []
+            const userParticipatedContests = await userModel.findById(parent._id,'participatedContests -_id')
+            for(let i=0; i<userParticipatedContests.participatedContests.length; i++){
+                const contestDetails = await contestModel.findById(userParticipatedContests.participatedContests[i])
+                userParticipatedContestsDetails.push(contestDetails)
+            }
+            return userParticipatedContestsDetails
         }
     },
 
