@@ -9,6 +9,7 @@ const loginFunc = require('../../resolver_handlers/loginHandler')
 const getUserFunc = require('../../resolver_handlers/getUserHandler')
 const getContestFunc = require('../../resolver_handlers/getContestHandler')
 const uploadImageFunc = require('../../resolver_handlers/UploadImageHandler')
+const logoutFunc = require('../../resolver_handlers/logoutHandler')
 
 
 const resolvers = {
@@ -50,6 +51,9 @@ const resolvers = {
         // },
         getContest:(parent, args, context, info) => {
             return getContestFunc(args, context)
+        },
+        logout:(parent, args, context, info) => {
+            return logoutFunc(context)
         }
     },
 
