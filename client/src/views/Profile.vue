@@ -19,7 +19,7 @@
                 </v-col>
                 <v-col>
                     <v-row justify="end" class="mr-12 mt-16">
-                        <v-btn color="green white--text">Create Contest</v-btn>
+                        <v-btn color="green white--text" to="/createcontest">Create Contest</v-btn>
                     </v-row>
                 </v-col>
             </v-row>          
