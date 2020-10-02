@@ -65,9 +65,6 @@ const resolvers = {
         logout:(parent, args, context, info) => {
             return logoutFunc(context)
         },
-        vote:(parent, args, context, info) => {
-            return voteFunc(args,context)
-        }
     },
 
     RootMutation:{
@@ -79,6 +76,9 @@ const resolvers = {
         },
         addImage:(parent,args,contest,info) => {
             return uploadImageFunc(args,contest)
+        },
+        vote:(parent, args, context, info) => {
+            return voteFunc(args,context)
         }
     }
 }
