@@ -22,6 +22,10 @@ const entrySchema = mongoose.Schema({
             entryAt:{
                 type: Date,
                 default: Date.now
+            },
+            votesBy: {
+                    type: [mongoose.Schema.Types.ObjectId],
+                    ref: 'User'
             }
         }
     ]

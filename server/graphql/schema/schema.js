@@ -47,6 +47,7 @@ const Date = require('./scalarDate');
         getContests(completed:Boolean!):[Contest!]!
         getContest(id:ID!):Contest!
         logout:String!
+        vote(contestId: ID!, entryId: ID!):String!
     },
 
     type RootMutation {
