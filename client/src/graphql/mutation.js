@@ -19,3 +19,9 @@ export const UPLOAD_IMAGE_MUTATION = gql`
         addImage(file: $file,contestId:$contestId)
     }
 `
+
+export const VOTE_MUTATION = gql`
+    mutation($contestId: ID!, $entryId: ID!){
+        vote(contestId:$contestId, entryId:$entryId)
+    }
+`

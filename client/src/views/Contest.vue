@@ -81,7 +81,7 @@
                             height="300"
                         ></v-img>
                         <div>
-                            <span class="mr-16 pr-16">{{entry.votes}}</span>
+                            <span @click="vote(entry._id)" class="mr-16 pr-16">{{entry.votes}}</span>
                             <span class="ml-16 pl-8">{{entry.participant.name}}</span>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import { UPLOAD_IMAGE_MUTATION } from '../graphql/mutation';
+import { UPLOAD_IMAGE_MUTATION, VOTE_MUTATION } from '../graphql/mutation';
 import { GET_CONTEST_QUERY } from '../graphql/query';
 export default {
     data: () => ({
@@ -136,6 +136,20 @@ export default {
                     this.dialog = false
                 })
             }
+        },
+        vote(entryId){
+            console.log(entryId)
+            this.$apollo.mutate({
+                mutation: VOTE_MUTATION,
+                variables:{
+                    contestId: this.$route.params.id,
+                    entryId
+                }
+            }).then(result => {
+                alert(result.data.vote)
+            }).catch(error => [
+                alert(error)
+            ])
         }
     }
 }
