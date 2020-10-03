@@ -62,6 +62,10 @@ export default {
             }
             this.contests = contestsArray
             console.log(this.contests)
+        }).catch(error => {
+            if(error == 'Error: GraphQL error: Unautherized'){
+                window.location.href='http://localhost:8080/login'
+            }
         })
     }
 }

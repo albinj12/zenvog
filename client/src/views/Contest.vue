@@ -111,7 +111,9 @@ export default {
             console.log(result.data)
             this.contestDetails = result.data.getContest
         }).catch((error) => {
-            alert(error.message)
+            if(error == 'Error: GraphQL error: Unautherized'){
+                window.location.href='http://localhost:8080/login'
+            }
         })
     },
     methods: {
@@ -147,9 +149,9 @@ export default {
                 }
             }).then(result => {
                 alert(result.data.vote)
-            }).catch(error => [
+            }).catch(error => {
                 alert(error)
-            ])
+            })
         }
     }
 }

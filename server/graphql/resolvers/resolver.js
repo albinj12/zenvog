@@ -58,7 +58,7 @@ const resolvers = {
             return getUserFunc(context)
         },
         getContests:(parent, args, context, info) => {
-            return getContestsFunc()
+            return getContestsFunc(context)
         },
         getContest:(parent, args, context, info) => {
             return getContestFunc(args, context)
