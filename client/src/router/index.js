@@ -6,6 +6,7 @@ import Login from '../views/Login.vue'
 import Profile from '../views/Profile.vue'
 import CreateContest from '../views/CreateContest.vue'
 import Contest from '../views/Contest.vue'
+import ExploreContests from '../views/ExploreContests'
 
 Vue.use(VueRouter)
 
@@ -48,6 +49,11 @@ const routes = [
     name: 'Contest',
     component: Contest
   },
+  {
+    path: '/explore',
+    name: 'ExploreContests',
+    component: ExploreContests
+  }
 ]
 
 const router = new VueRouter({

@@ -59,3 +59,19 @@ export const LOGOUT_QUERY=gql`
     logout
   }
 `
+
+export const GET_CONTESTS_QUERY=gql`
+  query{
+    getContests{
+      _id
+      name
+      tagline
+      createdBy{
+        name
+      }
+      maxParticipants
+      currentParticipants
+      deadline
+    }
+  }
+`
