@@ -44,7 +44,7 @@ const Date = require('./scalarDate');
     type RootQuery {
         login(email: String!, password: String!):String!
         user:User!
-        getContests(completed:Boolean!):[Contest!]!
+        getContests:[Contest!]!
         getContest(id:ID!):Contest!
         logout:String!
     },

@@ -11,6 +11,7 @@ const getContestFunc = require('../../resolver_handlers/getContestHandler')
 const uploadImageFunc = require('../../resolver_handlers/UploadImageHandler')
 const logoutFunc = require('../../resolver_handlers/logoutHandler')
 const voteFunc = require('../../resolver_handlers/voteHandler')
+const getContestsFunc = require('../../resolver_handlers/getContestsHandler')
 
 
 const resolvers = {
@@ -56,9 +57,9 @@ const resolvers = {
         user: (parent, args, context, info) => {
             return getUserFunc(context)
         },
-        // getContests:(parent, args, context, info) => {
-        //     return contestModel.find({completed:args.completed});
-        // },
+        getContests:(parent, args, context, info) => {
+            return getContestsFunc()
+        },
         getContest:(parent, args, context, info) => {
             return getContestFunc(args, context)
         },
