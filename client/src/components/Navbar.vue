@@ -9,6 +9,7 @@
       <v-toolbar-title>Contest App</v-toolbar-title>
 
       <v-spacer></v-spacer>
+      <v-btn v-show="loginStatus" class="mx-4" color="white green--text" to="/explore">Explore</v-btn>
       <v-btn v-show="loginStatus" class="mx-4" color="white green--text" to="/profile">Profile</v-btn>
       <v-btn v-show="loginStatus" class="mx-4" color="white green--text" @click="logout" >Logout</v-btn>
       <v-btn v-show="!loginStatus" class="mx-4 font-weight-bold" text color="white green--text" to="/login">Login</v-btn>
