@@ -197,7 +197,7 @@ import moment from 'moment'
               
             }
           }).then((result) => {
-            console.log(result)
+            window.location.href=`http://localhost:8080/contest/${result.data.createContest._id}`
           }).catch((error) => {
             if(error.message=="GraphQL error: Failed to create contest"){
               alert(error.message.slice(15))

@@ -8,8 +8,7 @@ export const SIGNUP_MUTATION = gql`
 export const CREATE_CONTEST_MUTATION = gql`
     mutation($name: String!, $tagline: String, $deadline: Date, $description: String!, $rules: [String], $contestType: String!, $maxParticipants: Int!, $startDate: Date){
         createContest(name: $name, tagline:$tagline, deadline: $deadline, description: $description, rules:$rules, contestType:$contestType, maxParticipants: $maxParticipants, startDate: $startDate){
-            name,
-            deadline
+            _id
         }
     }
 `
