@@ -6,7 +6,7 @@
     >
       <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
 
-      <v-toolbar-title>Contest App</v-toolbar-title>
+      <v-toolbar-title>ZENVOG</v-toolbar-title>
 
       <v-spacer></v-spacer>
       <v-btn v-show="loginStatus" class="mx-4" color="white green--text" to="/explore">Explore</v-btn>
