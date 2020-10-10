@@ -49,7 +49,7 @@
         <div>
             <v-row justify="center">
                 <v-dialog v-model="dialog" persistent max-width="600px">
-                <v-card>
+                <v-card :loading="loading">
                     <v-card-title>
                     <span class="headline">Upload Image</span>
                     </v-card-title>
@@ -64,7 +64,7 @@
                     </v-card-text>
                     <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="red" text @click="dialog = false">Cancel</v-btn>
+                    <v-btn color="red" text @click="cancelUpload">Cancel</v-btn>
                     <v-btn color="blue darken-1" text @click="uploadImage">Upload</v-btn>
                     </v-card-actions>
                 </v-card>
@@ -99,6 +99,7 @@ export default {
         contestDetails: {},
         selectedImage: null,
         dialog: false,
+        loading:false,
     }),
     created(){
         console.log('The id is: ' + this.$route.params.id);
@@ -122,22 +123,40 @@ export default {
             console.log(this.selectedImage)
         },
         uploadImage(){
+            this.loading = true
             if(this.selectedImage != null){
                 this.$apollo.mutate({
                     mutation: UPLOAD_IMAGE_MUTATION,
                     variables:{
                         file: this.selectedImage,
                         contestId: this.$route.params.id
+                    },
+                    update:(store, {data:{addImage}}) => {
+                        const data = store.readQuery({
+                            query:GET_CONTEST_QUERY,
+                            variables:{
+                                id: this.$route.params.id
+                            }
+                        })
+                        data.getContest.entry.push(addImage)
+                        store.writeQuery({ query: GET_CONTEST_QUERY, data })
                     }
                 }).then( result => {
                     console.log(result.data)
                     this.selectedImage = null
+                    this.loading = false
                     this.dialog = false
+                    this.contestDetails.participateOption = false
                 }).catch( error => {
                     alert(error)
                     this.dialog = false
                 })
             }
+        },
+        cancelUpload(){
+            this.dialog = false,
+            this.loading = false,
+            this.selectedImage = null
         },
         vote(entryId){
             console.log(entryId)

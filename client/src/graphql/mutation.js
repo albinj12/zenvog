@@ -18,6 +18,7 @@ export const UPLOAD_IMAGE_MUTATION = gql`
         addImage(file: $file,contestId:$contestId){
             _id
             votes
+            url
             participant{
                 name
             }
