@@ -75,7 +75,7 @@ export default {
           }).then((result) => {
               this.loginerr=""
               if(result.data.login === "success"){
-                 window.location.href = 'http://localhost:8080/home'
+                 window.location.href = 'http://localhost:8080/'
               }
           }).catch((error) => {
               this.loginerr = error.message.slice(22)

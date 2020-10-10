@@ -40,25 +40,48 @@ const uploadImageFunc = async function(args,{req, res}) {
         //     }
         //   })
         // })
-        
-      blobService.createBlockBlobFromStream('contest-entry-container',`${args.contestId}/${newFilename}`,fileStream,streamSize,(error,response) => {
-        if(!error){
-          let entry = {
-            url:`https://contestappstorageaccount.blob.core.windows.net/contest-entry-container/${args.contestId}/${newFilename}`,
-            participant: req.userId
-          }
-          contestEntryModel.findOneAndUpdate({contestId: args.contestId},{$push:{entries:entry}},(err, doc) => {
-            if(!err){
-              userModel.findOneAndUpdate({_id: req.userId},{$push:{participatedContests:args.contestId}},(err,doc) => {
-                console.log("updated")
-              })
-            }
-          })
-        }
-      })
+      
+      const newEntry = {}
 
+      const promise = new Promise((resolve, reject) => {
+        blobService.createBlockBlobFromStream('contest-entry-container',`${args.contestId}/${newFilename}`,fileStream,streamSize,(error,response) => {
+          if(!error) resolve(response)
+          else reject(error)
+        })
+      })
+        
+      // blobService.createBlockBlobFromStream('contest-entry-container',`${args.contestId}/${newFilename}`,fileStream,streamSize,(error,response) => {
+      //   if(!error){
+      //     let entry = {
+      //       url:`https://contestappstorageaccount.blob.core.windows.net/contest-entry-container/${args.contestId}/${newFilename}`,
+      //       participant: req.userId
+      //     }
+      //     contestEntryModel.findOneAndUpdate({contestId: args.contestId},{$push:{entries:entry}},(err, doc) => {
+      //       if(!err){
+      //         userModel.findOneAndUpdate({_id: req.userId},{$push:{participatedContests:args.contestId}},(err,doc) => {
+      //           console.log("updated")
+      //         })
+      //       }
+      //     })
+      //   }
+        
+      // })
+
+      return promise.then(async (response) => {
+        let entry = {
+          url:`https://contestappstorageaccount.blob.core.windows.net/contest-entry-container/${args.contestId}/${newFilename}`,
+          participant: req.userId
+        }
+        await contestEntryModel.findOneAndUpdate({contestId: args.contestId},{$push:{entries:entry}})
+        await userModel.findOneAndUpdate({_id: req.userId},{$push:{participatedContests:args.contestId}})
+        console.log("updated: ",response)
 
         return true;
+      }).catch(error => {
+        //remove image from blob storage and remove entry
+        console.log(error)
+        return false;
+      })
         
       });
     }else {
