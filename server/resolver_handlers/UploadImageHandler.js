@@ -41,7 +41,14 @@ const uploadImageFunc = async function(args,{req, res}) {
         //   })
         // })
       
-      const newEntry = {}
+      const newEntry = {
+        url:"",
+        votes:0,
+        _id:"",
+        participant:{
+          name:""
+        }
+      }
 
       const promise = new Promise((resolve, reject) => {
         blobService.createBlockBlobFromStream('contest-entry-container',`${args.contestId}/${newFilename}`,fileStream,streamSize,(error,response) => {
@@ -73,10 +80,13 @@ const uploadImageFunc = async function(args,{req, res}) {
           participant: req.userId
         }
         await contestEntryModel.findOneAndUpdate({contestId: args.contestId},{$push:{entries:entry}})
-        await userModel.findOneAndUpdate({_id: req.userId},{$push:{participatedContests:args.contestId}})
-        console.log("updated: ",response)
-
-        return true;
+        const user = await userModel.findOneAndUpdate({_id: req.userId},{$push:{participatedContests:args.contestId}})
+        const entryDetails = await contestEntryModel.findOne({contestId:args.contestId}).select({entries:{$elemMatch:{participant:req.userId}}})
+        newEntry.url = entryDetails.entries[0].url
+        newEntry._id = entryDetails.entries[0]._id
+        newEntry.participant.name = user.name
+        newEntry.participant._id = user._id
+        return newEntry;
       }).catch(error => {
         //remove image from blob storage and remove entry
         console.log(error)
