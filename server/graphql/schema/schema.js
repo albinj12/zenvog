@@ -53,7 +53,7 @@ const Date = require('./scalarDate');
         signup(name: String!, email: String!, password: String!):String!
         createContest(name: String!, tagline: String, deadline: Date, description: String!, rules: [String], contestType: String!, maxParticipants: Int!, startDate: Date): Contest!
         addImage(file: Upload!, contestId:ID!): ContestEntry!
-        vote(contestId: ID!, entryId: ID!):String!
+        vote(contestId: ID!, entryId: ID!):Int!
     }
 
     schema {
