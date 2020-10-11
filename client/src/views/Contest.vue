@@ -139,7 +139,12 @@ export default {
                             }
                         })
                         data.getContest.entry.push(addImage)
-                        store.writeQuery({ query: GET_CONTEST_QUERY, data })
+                        store.writeQuery({ 
+                            query: GET_CONTEST_QUERY,
+                            variables:{
+                                id: this.$route.params.id
+                            },
+                            data })
                     }
                 }).then( result => {
                     console.log(result.data)
@@ -159,15 +164,36 @@ export default {
             this.selectedImage = null
         },
         vote(entryId){
-            console.log(entryId)
             this.$apollo.mutate({
                 mutation: VOTE_MUTATION,
                 variables:{
                     contestId: this.$route.params.id,
                     entryId
+                },
+                update:(store,{data:{vote}}) => {
+                    const data = store.readQuery({
+                        query:GET_CONTEST_QUERY,
+                        variables:{
+                            id: this.$route.params.id,
+                        }
+                    })
+                    for(let i=0;i<data.getContest.entry.length;i++){
+                        if(data.getContest.entry[i]._id == entryId){
+                            data.getContest.entry[i].votes = vote
+                        }
+                    }
+                    store.writeQuery({ query: GET_CONTEST_QUERY,
+                    variables:{
+                        id: this.$route.params.id
+                    },
+                    data  })
                 }
-            }).then(result => {
-                alert(result.data.vote)
+            }).then((result) => {
+                for(let i=0;i<this.contestDetails.entry.length;i++){
+                        if(this.contestDetails.entry[i]._id == entryId){
+                            this.contestDetails.entry[i].votes = result.data.vote
+                        }
+                    }
             }).catch(error => {
                 alert(error)
             })
