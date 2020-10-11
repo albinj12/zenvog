@@ -139,6 +139,7 @@ export default {
                             }
                         })
                         data.getContest.entry.push(addImage)
+                        data.getContest.currentParticipants += 1
                         store.writeQuery({ 
                             query: GET_CONTEST_QUERY,
                             variables:{

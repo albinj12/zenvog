@@ -5,6 +5,7 @@ const blobService = azure.createBlobService(process.env.AZURE_STORAGE_CONNECTION
 
 const contestEntryModel = require('../models/contestEntryModel')
 const userModel = require('../models/userModel')
+const contestModel = require('../models/contestModel')
 
 
 const uploadImageFunc = async function(args,{req, res}) {
@@ -82,6 +83,7 @@ const uploadImageFunc = async function(args,{req, res}) {
         await contestEntryModel.findOneAndUpdate({contestId: args.contestId},{$push:{entries:entry}})
         const user = await userModel.findOneAndUpdate({_id: req.userId},{$push:{participatedContests:args.contestId}})
         const entryDetails = await contestEntryModel.findOne({contestId:args.contestId}).select({entries:{$elemMatch:{participant:req.userId}}})
+        await contestModel.findByIdAndUpdate(args.contestId,{$inc:{currentParticipants: 1}})
         newEntry.url = entryDetails.entries[0].url
         newEntry._id = entryDetails.entries[0]._id
         newEntry.participant.name = user.name
