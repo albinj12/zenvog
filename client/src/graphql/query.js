@@ -72,6 +72,8 @@ export const GET_CONTESTS_QUERY=gql`
       maxParticipants
       currentParticipants
       deadline
+      startDate
+      status
     }
   }
 `

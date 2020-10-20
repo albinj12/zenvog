@@ -14,6 +14,15 @@
                                 <v-card :to="`/contest/${contest._id}`" width="1000" class="my-4">
                                     <v-card-title>
                                         {{contest.name}}
+                                        <div id="contestStatus" class="mx-16 px-16">
+                                            <v-chip
+                                                class="ma-2"
+                                                :color="getColor(contest.status)"
+                                                text-color="white"
+                                                >
+                                                {{contest.status}}
+                                            </v-chip>
+                                        </div>
                                     </v-card-title>
                                     <v-card-text>
                                         <v-row>
@@ -67,6 +76,17 @@ export default {
                 window.location.href='http://localhost:8080/login'
             }
         })
+    },
+    methods: {
+        getColor(status){
+            if(status == "Upcoming"){
+                return "yellow"
+            }else if(status == "Ongoing"){
+                return "green"
+            }else {
+                return "red"
+            }
+        }
     }
 }
 </script>
