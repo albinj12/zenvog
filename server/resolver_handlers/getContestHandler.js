@@ -7,47 +7,28 @@ const getContestFunc = async function({id},{req,res}){
     if(req.user == true){
         try {
             var contest = await contestModel.findOne(new ObjectID(id)).lean()
-            let today = new Date()
-            if(today.getFullYear() == contest.startDate.getFullYear()){
-                if((today.getMonth() < contest.startDate.getMonth()) || (today.getMonth() == contest.startDate.getMonth() && today.getDate() < contest.startDate.getDate())){
-                    contest.status = "upcoming"
-                }else if((today.getMonth() > contest.deadline.getMonth()) || (today.getMonth() == contest.deadline.getMonth() && today.getDate() > contest.deadline.getDate())){
-                    contest.status = "completed"
-                }else {
-                    contest.status = "active"
-                }
-            }else if(today.getFullYear() < contest.startDate.getFullYear()){
-                contest.status = "upcoming"
-            }else{
-                if(today.getFullYear > contest.deadline.getFullYear()){
-                    contest.status = "completed"
-                }else if(today.getFullYear = contest.deadline.getFullYear()){
-                    if((today.getMonth() < contest.deadline.getMonth()) || (today.getMonth() == contest.deadline.getMonth() && today.getDate() < contest.deadline.getDate())){
-                        contest.status = "active"
-                    }else {
-                        contest.status = "completed"
-                    }
-                }
-            }
-
-            if(contest.createdBy.toString() == req.userId.toString()){
+            if(contest.status == "Finished" || contest.status == "Upcoming"){
                 contest.participateOption = false
             }else {
-                const userParticipatedContests = await userModel.findById(req.userId,'participatedContests -_id')
-                if(userParticipatedContests.participatedContests.length != 0){
-                    for (let i=0; i < userParticipatedContests.participatedContests.length; i++){
-                        if(userParticipatedContests.participatedContests[i].toString() === contest._id.toString()){
-                            contest.participateOption = false
-                            break;
+                if(contest.createdBy.toString() == req.userId.toString()){
+                    contest.participateOption = false
+                }else {
+                    const userParticipatedContests = await userModel.findById(req.userId,'participatedContests -_id')
+                    if(userParticipatedContests.participatedContests.length != 0){
+                        for (let i=0; i < userParticipatedContests.participatedContests.length; i++){
+                            if(userParticipatedContests.participatedContests[i].toString() === contest._id.toString()){
+                                contest.participateOption = false
+                                break;
+                            }
+                            contest.participateOption = true
                         }
+                    }else {
                         contest.participateOption = true
                     }
-                }else {
-                    contest.participateOption = true
                 }
             }
 
-            if(contest.createdBy.toString() == req.userId.toString() && contest.status == "upcoming"){
+            if(contest.createdBy.toString() == req.userId.toString() && contest.status == "Upcoming"){
                 contest.showEditOption = true
             } else {
                 contest.showEditOption = false
