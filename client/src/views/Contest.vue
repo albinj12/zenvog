@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-container class="mx-10 " fluid>
+        <v-container class="mx-16 " fluid>
             <v-row>
                 <v-col cols=8>
                     <v-row>
@@ -71,22 +71,24 @@
                 </v-dialog>
             </v-row>
         </div>
-         
-        <v-container>
-            <v-row>
-                <v-col v-for="entry in contestDetails.entry" :key="entry._id">
-                    <div>
-                        <v-img
-                            :src="entry.url" width="300"
-                            height="300"
-                        ></v-img>
+        <hr>
+        <v-container fluid>
+            <v-card id="entries-card">
+                <v-row class="py-7 px-8">
+                    <v-col v-for="entry in contestDetails.entry" :key="entry._id">
                         <div>
-                            <span @click="vote(entry._id)" class="mr-16 pr-16">{{entry.votes}}</span>
-                            <span class="ml-16 pl-8">{{entry.participant.name}}</span>
+                            <v-img
+                                :src="entry.url" width="300"
+                                height="300"
+                            ></v-img>
+                            <div>
+                                <span @click="vote(entry._id)" class="mr-16 pr-12">{{entry.votes}}</span>
+                                <span class="ml-16 pl-8">{{entry.participant.name}}</span>
+                            </div>
                         </div>
-                    </div>
-                </v-col>
-            </v-row>
+                    </v-col>
+                </v-row>
+            </v-card>
         </v-container>
     </div>
 </template>
@@ -202,3 +204,11 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+hr {
+  border: 1px solid #76FF03;
+  width: 90%;
+  margin: auto;
+}
+</style>

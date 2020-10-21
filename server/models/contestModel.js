@@ -53,6 +53,10 @@ const contestSchema = new mongoose.Schema({
             type: String,
         }
     ],
+    status: {
+        type: String,
+        default: 'Upcoming'
+    }
 })
 
 module.exports = mongoose.model('Contest',contestSchema);
