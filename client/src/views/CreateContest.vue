@@ -164,6 +164,14 @@ import moment from 'moment'
       }
     },
 
+    created() {
+      let sid = this.$cookies.get("sid")
+      let tid = this.$cookies.get("tid")
+      if(!sid || !tid){
+        window.location.href='http://localhost:8080/login'
+      }
+    },
+
     methods: {
       addRule () {
         this.contestRules.push({ 
