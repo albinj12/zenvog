@@ -1,3 +1,3 @@
 # zenvog
 
-zenvog is a platform for organizing online photography competetions and participating in photography competetions happening around the globe.
+zenvog is a platform for organizing online photography competitions and participating in photography competitions happening around the globe.
